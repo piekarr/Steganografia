@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace Steganografia.Security
+namespace Steganografia.Security.Accounts
 {
     public interface IAccountManager
     {

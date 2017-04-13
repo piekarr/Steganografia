@@ -1,4 +1,6 @@
 ﻿using Steganografia.Security;
+using Steganografia.Security.Accounts;
+using Steganografia.Security.Filters;
 using Steganografia.ViewModels.Accounts;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,8 @@ using System.Web.Mvc;
 namespace Steganografia.Controllers
 {
     [AllowAnonymous]
-    public class AccountController : Controller
+    [RedirectAuthenticatedUsersFilter("Home", "Index")]
+    public class AccountController : BaseController
     {
         private readonly IAccountManager _accountManager;
 

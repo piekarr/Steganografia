@@ -7,5 +7,7 @@ namespace Steganografia.EntityFramework
     {
         IQueryable<T> AsQueryable();
         T Add(T entity);
+        T Find(object id);
+        void SaveOrUpdate();
     }
 }

@@ -185,12 +185,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="EntityFramework\IRepository.cs" />
     <Compile Include="EntityFramework\Mappings\EntityBaseMap.cs" />
     <Compile Include="EntityFramework\Mappings\Sessions\SessionMap.cs" />
     <Compile Include="EntityFramework\Mappings\Users\UserMap.cs" />
     <Compile Include="EntityFramework\RepositoryBase.cs" />
+    <Compile Include="Security\Filters\CustomAuthenticationFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -208,10 +210,14 @@
     <Compile Include="Models\Sessions\Session.cs" />
     <Compile Include="Models\Users\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\AccountManager.cs" />
-    <Compile Include="Security\CookieManager.cs" />
-    <Compile Include="Security\IAccountManager.cs" />
-    <Compile Include="Security\ICookieManager.cs" />
+    <Compile Include="Security\Accounts\AccountManager.cs" />
+    <Compile Include="Security\Cookies\CookieManager.cs" />
+    <Compile Include="Security\Accounts\IAccountManager.cs" />
+    <Compile Include="Security\Cookies\ICookieManager.cs" />
+    <Compile Include="Security\Entities\AppIdentity.cs" />
+    <Compile Include="Security\Entities\AppPrincipal.cs" />
+    <Compile Include="Security\Filters\CustomAuthorizationFilter.cs" />
+    <Compile Include="Security\Filters\RedirectAuthenticatedUsersFilter.cs" />
     <Compile Include="Services\BitmapCoders\ImageCodeDataConfig.cs" />
     <Compile Include="Services\BitmapCoders\ImageDataBaseService.cs" />
     <Compile Include="Services\BitmapCoders\ImageDataCoderService.cs" />

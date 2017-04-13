@@ -1,11 +1,10 @@
 ﻿using Steganografia.EntityFramework;
 using Steganografia.Models.Users;
-using System;
-using System.Collections.Generic;
+using Steganografia.Security.Cookies;
 using System.Linq;
 using System.Web;
 
-namespace Steganografia.Security
+namespace Steganografia.Security.Accounts
 {
     public class AccountManager : IAccountManager
     {
@@ -25,8 +24,7 @@ namespace Steganografia.Security
         public void SignIn(string userName, HttpContextBase httpContextBase)
         {
             var user = _userRepository.AsQueryable().First(x => x.UserName == userName);
-            var authenticationCookie = _cookieManager.GetNewCookie(user.Id);
-            httpContextBase.Response.Cookies.Add(authenticationCookie);
+            _cookieManager.AddAuthenticationCookie(user.Id, httpContextBase);
         }
 
         public bool UserExists(string userName, string password)

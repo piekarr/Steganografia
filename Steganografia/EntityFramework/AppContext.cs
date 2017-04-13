@@ -11,6 +11,7 @@ namespace Steganografia.EntityFramework
 {
     public partial class AppContext : DbContext
     {
+        private static AppContext _appContext;
         public virtual IDbSet<User> Users { get; set; }
 
         public AppContext()
@@ -24,6 +25,11 @@ namespace Steganografia.EntityFramework
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Configurations.Add(new UserMap());
             modelBuilder.Configurations.Add(new SessionMap());
+        }
+
+        public static AppContext Create()
+        {
+            return (_appContext = _appContext ?? new AppContext());
         }
     }
 }

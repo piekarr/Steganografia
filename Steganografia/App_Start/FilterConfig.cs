@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Steganografia.Security.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,8 @@ namespace Steganografia
     {
         public static void RegisterFilters(GlobalFilterCollection filters)
         {
-
+            filters.Add(new CustomAuthenticationFilter());
+            filters.Add(new CustomAuthorizationFilter());
         }
     }
 }

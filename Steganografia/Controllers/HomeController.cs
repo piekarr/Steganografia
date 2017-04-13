@@ -6,11 +6,12 @@ using System.Web.Mvc;
 
 namespace Steganografia.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
 
         public ActionResult Index()
         {
+            var asd = User.Identity.Id;
             return View();
         }
     }
