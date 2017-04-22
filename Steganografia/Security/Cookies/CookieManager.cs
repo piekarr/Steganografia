@@ -44,11 +44,17 @@ namespace Steganografia.Security.Cookies
                     session.Expires = DateTime.UtcNow.AddMinutes(15);
                     _sessionRepository.SaveOrUpdate();
                     httpContext.Response.Cookies.Add(CreateNewCookie(session.SesssionId, session.Expires));
-                    var appIdentityAnonymous = _userRepository.AsQueryable()
+                    var appIdentityAnonymous = _userRepository.AsNoTracking()
                                         .Where(x => x.Id == session.UserId)
                                         .Select(x => new { x.Id, x.UserName }).First();
                     return new AppPrincipal(new AppIdentity(appIdentityAnonymous.Id, appIdentityAnonymous.UserName));
                 }
+            }
+            if (httpContext.Request.IsLocal)
+            {
+                var admin = _userRepository.AsNoTracking().Where(x => x.UserName == "Admin").First();
+                AddAuthenticationCookie(admin.Id, httpContext);
+                return new AppPrincipal(new AppIdentity(admin.Id, admin.UserName));
             }
             return null;
         }

@@ -179,6 +179,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\site.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -188,10 +189,20 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="EntityFramework\IRepository.cs" />
+    <Compile Include="EntityFramework\Mappings\Conversations\ConversationMap.cs" />
+    <Compile Include="EntityFramework\Mappings\Conversations\MessageMap.cs" />
+    <Compile Include="EntityFramework\Mappings\Conversations\UserUnreadMessageMap.cs" />
     <Compile Include="EntityFramework\Mappings\EntityBaseMap.cs" />
     <Compile Include="EntityFramework\Mappings\Sessions\SessionMap.cs" />
     <Compile Include="EntityFramework\Mappings\Users\UserMap.cs" />
     <Compile Include="EntityFramework\RepositoryBase.cs" />
+    <Compile Include="Migrations\201704202039404_ConversationAndMessages.cs" />
+    <Compile Include="Migrations\201704202039404_ConversationAndMessages.Designer.cs">
+      <DependentUpon>201704202039404_ConversationAndMessages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Conversations\Conversation.cs" />
+    <Compile Include="Models\Conversations\Message.cs" />
+    <Compile Include="Models\Conversations\UserUnreadMessage.cs" />
     <Compile Include="Security\Filters\CustomAuthenticationFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -223,8 +234,14 @@
     <Compile Include="Services\BitmapCoders\ImageDataCoderService.cs" />
     <Compile Include="Services\BitmapCoders\ImageDataEncoderService.cs" />
     <Compile Include="Services\BitmapCoders\PixelRGBValue.cs" />
+    <Compile Include="Services\Conversations\ConversationService.cs" />
+    <Compile Include="Services\Conversations\IConversationService.cs" />
     <Compile Include="ViewModels\Accounts\RegisterUserViewModel.cs" />
     <Compile Include="ViewModels\Accounts\SignInUserViewModel.cs" />
+    <Compile Include="ViewModels\Home\ConversationMessageViewModel.cs" />
+    <Compile Include="ViewModels\Home\ConversationViewModel.cs" />
+    <Compile Include="ViewModels\Home\CreateConversationViewModel.cs" />
+    <Compile Include="ViewModels\Home\HomeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -239,6 +256,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\SignIn.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Home\Conversations.cshtml" />
+    <Content Include="Views\Home\ConversationMessages.cshtml" />
+    <Content Include="Views\Home\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -246,15 +266,16 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Filters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201704102028357_Init_AddUser.resx">
       <DependentUpon>201704102028357_Init_AddUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704102150195_Session_IsActiveColumn.resx">
       <DependentUpon>201704102150195_Session_IsActiveColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704202039404_ConversationAndMessages.resx">
+      <DependentUpon>201704202039404_ConversationAndMessages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

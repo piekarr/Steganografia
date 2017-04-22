@@ -12,11 +12,12 @@ namespace Steganografia.Models
         public virtual DateTime? UpdatedDate { get; set; }
         public virtual int? UpdatedByUserId { get; set; }
         public virtual User UpdatedByUser { get; set; }
-        public virtual bool IsActive { get; set; }
+        public virtual bool IsActive { get; protected set; }
 
         protected EntityBase()
         {
-
+            IsActive = true;
+            CreatedDate = DateTime.UtcNow;
         }
 
         public EntityBase(int createdByUserId)

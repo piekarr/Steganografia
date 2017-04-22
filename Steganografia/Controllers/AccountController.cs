@@ -33,6 +33,7 @@ namespace Steganografia.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SignIn(SignInUserViewModel signInUser)
         {
             if (ModelState.IsValid)
@@ -57,6 +58,7 @@ namespace Steganografia.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterUserViewModel registerUser)
         {
             if (ModelState.IsValid)

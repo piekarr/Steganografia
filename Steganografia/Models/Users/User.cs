@@ -1,4 +1,7 @@
-﻿namespace Steganografia.Models.Users
+﻿using Steganografia.Models.Conversations;
+using System.Collections.Generic;
+
+namespace Steganografia.Models.Users
 {
     public class User : EntityBase
     {

@@ -11,7 +11,7 @@ namespace Steganografia.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Steganografia.EntityFramework.AppContext context)

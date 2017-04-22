@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using Steganografia.Models.Sessions;
 
 namespace Steganografia.EntityFramework
 {
     public interface IRepository<T>
     {
         IQueryable<T> AsQueryable();
+        IQueryable<T> AsNoTracking();
         T Add(T entity);
         T Find(object id);
         void SaveOrUpdate();

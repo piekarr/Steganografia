@@ -11,7 +11,7 @@ namespace Steganografia.EntityFramework
 
         public RepositoryBase()
         {
-            _appContext = new AppContext();// AppContext.Create();
+            _appContext = AppContext.Create();
         }
 
         public T Add(T entity)
@@ -26,6 +26,12 @@ namespace Steganografia.EntityFramework
         {
             var entitySet = _appContext.Set<T>();
             return entitySet.AsQueryable();
+        }
+
+        public IQueryable<T> AsNoTracking()
+        {
+            var entitySet = _appContext.Set<T>();
+            return entitySet.AsNoTracking();
         }
 
         public T Find(object id)

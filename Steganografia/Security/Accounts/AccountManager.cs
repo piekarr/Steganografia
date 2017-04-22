@@ -23,7 +23,7 @@ namespace Steganografia.Security.Accounts
 
         public void SignIn(string userName, HttpContextBase httpContextBase)
         {
-            var user = _userRepository.AsQueryable().First(x => x.UserName == userName);
+            var user = _userRepository.AsNoTracking().First(x => x.UserName == userName);
             _cookieManager.AddAuthenticationCookie(user.Id, httpContextBase);
         }
 

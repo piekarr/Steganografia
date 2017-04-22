@@ -1,7 +1,23 @@
-﻿
+﻿@model IEnumerable<Steganografia.ViewModels.Home.ConversationViewModel> 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Piekar Site";
 }
+<div class="conversationsBody">
+    <div class="row">
+        <div class="col-sm-3 conversations">
+            @{
+                Html.RenderPartial("Conversations", Model);
+            }
+        </div>
+        <div class="col-sm-9 messages">
+        </div>
+    </div>
+</div>
 
-<h2>Index</h2>
-
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            initializeConversations();
+        });
+    </script>
+}
