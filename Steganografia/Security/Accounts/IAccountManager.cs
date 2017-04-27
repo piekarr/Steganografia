@@ -6,5 +6,7 @@ namespace Steganografia.Security.Accounts
     {
         bool UserExists(string userName, string password);
         void SignIn(string userName, HttpContextBase response);
+        bool UserNameTaken(string userName);
+        void CreateAccount(string userName, string password, string firstName, string lastName);
     }
 }

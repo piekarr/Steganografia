@@ -241,6 +241,7 @@
     <Compile Include="ViewModels\Home\ConversationMessageViewModel.cs" />
     <Compile Include="ViewModels\Home\ConversationViewModel.cs" />
     <Compile Include="ViewModels\Home\CreateConversationViewModel.cs" />
+    <Compile Include="ViewModels\Home\CreateMessageViewModel.cs" />
     <Compile Include="ViewModels\Home\HomeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +260,8 @@
     <Content Include="Views\Home\Conversations.cshtml" />
     <Content Include="Views\Home\ConversationMessages.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
+    <Content Include="Views\Home\CreateMessage.cshtml" />
+    <Content Include="Views\Home\ConversationMessage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -293,7 +296,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>59185</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59185/</IISUrl>
+          <IISUrl>http://localhost:5000/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

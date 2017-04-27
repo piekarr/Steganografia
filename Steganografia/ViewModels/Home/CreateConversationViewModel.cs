@@ -10,6 +10,7 @@ namespace Steganografia.ViewModels.Home
         public string Name { get; set; }
         
         [Required]
+        [Display(Name = "Users")]
         public List<int> UserIds { get; set; }
     }
 }

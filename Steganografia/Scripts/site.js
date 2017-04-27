@@ -1,7 +1,9 @@
 ﻿var initializeConversations = function () {
     var $buttons = $('.conversationsBody .conversations button');
     initializeConversationButtons($buttons);
-    $buttons.first().trigger('click');
+    if ($buttons.length) {
+        $buttons.first().trigger('click');
+    }
 };
 
 var initializeConversationButtons = function ($buttons) {

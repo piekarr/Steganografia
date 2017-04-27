@@ -1,0 +1,15 @@
+﻿@model Steganografia.ViewModels.Home.CreateMessageViewModel
+
+@using (Ajax.BeginForm("CreateMessage", new AjaxOptions() { OnFailure = "", OnSuccess = "", }))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.HiddenFor(x => x.ConversatonId)
+        <div>
+            @Html.TextAreaFor(x => x.Message)
+            @Html.ValidationMessageFor(x => x.Message)
+        </div>
+        <input type="submit" value="Send" class="btn btn-default" />
+    </div>
+}

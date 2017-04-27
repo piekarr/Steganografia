@@ -61,11 +61,22 @@ namespace Steganografia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterUserViewModel registerUser)
         {
+            ValidateRegisterUserViewModel(registerUser);
             if (ModelState.IsValid)
             {
-
+                _accountManager.CreateAccount(registerUser.UserName, registerUser.Password, registerUser.FirstName, registerUser.LastName);
+                _accountManager.SignIn(registerUser.UserName, HttpContext);
+                return RedirectToAction("Index", "Home");
             }
             return View(registerUser);
+        }
+
+        private void ValidateRegisterUserViewModel(RegisterUserViewModel registerUser)
+        {
+            if (_accountManager.UserNameTaken(registerUser.UserName))
+            {
+                ModelState.AddModelError(nameof(RegisterUserViewModel.UserName), "Username is already taken.");
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using Steganografia.ViewModels.Home;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -35,31 +36,77 @@ namespace Steganografia.Controllers
             {
                 return new HttpNotFoundResult();
             }
+            ViewBag.ConversatonId = id;
             return PartialView("ConversationMessages", _conversationService.GetMessagesForConversation(id));
         }
 
         [HttpGet]
         public ActionResult Create()
         {
+            ViewData["UsersSelectListItems"] = _conversationService.GetAllUsersExceptAsSelectListItems(User.Identity.Id);
             return View(new CreateConversationViewModel());
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CreateConversationViewModel model)
         {
+            ValidateCreateConversationViewModel(model);
+
             if (ModelState.IsValid)
             {
-                if (_conversationService.UsersExists(model.UserIds))
-                {
-                    _conversationService.CreateConversation(model.Name, model.UserIds, User.Identity.Id);
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Providen users do not exists.");
-                }
+                _conversationService.CreateConversation(model.Name, model.UserIds, User.Identity.Id);
+                return RedirectToAction(nameof(Index));
             }
+            ViewData.Add("UsersSelectListItems", _conversationService.GetAllUsersExceptAsSelectListItems(User.Identity.Id));
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult CreateMessage(int id)
+        {
+            return PartialView(new CreateMessageViewModel { ConversatonId = id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateMessage(CreateMessageViewModel createMessageViewModel)
+        {
+            //Validate, if users belongs to conversation
+            if (ModelState.IsValid)
+            {
+                var message = _conversationService.CreateMessage(createMessageViewModel.ConversatonId, createMessageViewModel.Message, User.Identity.Id);
+                return PartialView("ConversationMessage", message);
+            }
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return PartialView(createMessageViewModel);
+        }
+
+        private void ValidateCreateConversationViewModel(CreateConversationViewModel model)
+        {
+            if (model.UserIds == null)
+            {
+                return;
+            }
+            if (model.UserIds.Contains(User.Identity.Id))
+            {
+                ModelState.AddModelError(nameof(CreateConversationViewModel.UserIds), "You can not talk with yourself... 4ever alone :(");
+            }
+
+            if (!model.UserIds.Any())
+            {
+                ModelState.AddModelError(nameof(CreateConversationViewModel.UserIds), "You have to provide at least one user.");
+            }
+
+            if (!_conversationService.UsersExists(model.UserIds))
+            {
+                ModelState.AddModelError(nameof(CreateConversationViewModel.UserIds), "Providen users do not exists.");
+            }
+
+            if (!_conversationService.ConversationForUserGroupExists(model.UserIds, User.Identity.Id))
+            {
+                ModelState.AddModelError(nameof(CreateConversationViewModel.UserIds), "Conversation for this group of users already exists.");
+            }
         }
     }
 }

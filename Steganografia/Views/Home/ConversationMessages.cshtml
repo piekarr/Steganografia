@@ -4,24 +4,16 @@
 {
     foreach (var message in Model)
     {
-        <div class="message" data-message-id="@message.Id">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        @message.CreatedByUser
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    @message.Content
-                </div>
-                <div class="panel-footer">
-                    @message.CreatedDate
-                </div>
-            </div>
-        </div>
+        Html.RenderPartial("ConversationMessage", message);
     }
 }
 else
 {
     <div class="alert alert-info" role="alert">There are no messages.</div>
 }
+
+<div class="newMessage">
+    @{
+        Html.RenderPartial("CreateMessage", new Steganografia.ViewModels.Home.CreateMessageViewModel() { ConversatonId = ViewBag.ConversatonId });
+    }
+</div>

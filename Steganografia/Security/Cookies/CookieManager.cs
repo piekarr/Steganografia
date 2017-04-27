@@ -50,12 +50,12 @@ namespace Steganografia.Security.Cookies
                     return new AppPrincipal(new AppIdentity(appIdentityAnonymous.Id, appIdentityAnonymous.UserName));
                 }
             }
-            if (httpContext.Request.IsLocal)
-            {
-                var admin = _userRepository.AsNoTracking().Where(x => x.UserName == "Admin").First();
-                AddAuthenticationCookie(admin.Id, httpContext);
-                return new AppPrincipal(new AppIdentity(admin.Id, admin.UserName));
-            }
+            //if (httpContext.Request.IsLocal)
+            //{
+            //    var admin = _userRepository.AsNoTracking().Where(x => x.UserName == "Admin").First();
+            //    AddAuthenticationCookie(admin.Id, httpContext);
+            //    return new AppPrincipal(new AppIdentity(admin.Id, admin.UserName));
+            //}
             return null;
         }
         private HttpCookie CreateNewCookie(Guid cookieId, DateTime expires)
