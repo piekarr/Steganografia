@@ -1,19 +1,21 @@
 ﻿@model IEnumerable<Steganografia.ViewModels.Home.ConversationMessageViewModel>
 <h2>Messages</h2>
-@if (Model.Any())
-{
-    foreach (var message in Model)
-    {
-        Html.RenderPartial("ConversationMessage", message);
-    }
-}
-else
-{
-    <div class="alert alert-info" role="alert">There are no messages.</div>
-}
+<div class="messagesList">
+	@if (Model.Any())
+	{
+		foreach (var message in Model)
+		{
+			Html.RenderPartial("ConversationMessage", message);
+		}
+	}
+	else
+	{
+	<div class="alert alert-info" role="alert">There are no messages.</div>
+	}
+</div>
 
 <div class="newMessage">
-    @{
-        Html.RenderPartial("CreateMessage", new Steganografia.ViewModels.Home.CreateMessageViewModel() { ConversatonId = ViewBag.ConversatonId });
-    }
+	@{
+		Html.RenderPartial("CreateMessage", new Steganografia.ViewModels.Home.CreateMessageViewModel() { ConversatonId = ViewBag.ConversatonId });
+	}
 </div>

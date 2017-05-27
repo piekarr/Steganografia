@@ -5,44 +5,50 @@ using System.Web;
 
 namespace Steganografia.EntityFramework
 {
-    public class RepositoryBase<T> : IRepository<T> where T : class
-    {
-        AppContext _appContext;
+	public class RepositoryBase<T> : IRepository<T> where T : class
+	{
+		AppContext _appContext;
 
-        public RepositoryBase()
-        {
-            _appContext = AppContext.Create();
-        }
+		public RepositoryBase()
+		{
+			_appContext = AppContext.Create();
+		}
 
-        public T Add(T entity)
-        {
-            var entitySet = _appContext.Set<T>();
-            entitySet.Add(entity);
-            _appContext.SaveChanges();
-            return entity;
-        }
+		public T Create()
+		{
+			return _appContext.Set<T>().Create();
+		}
 
-        public IQueryable<T> AsQueryable()
-        {
-            var entitySet = _appContext.Set<T>();
-            return entitySet.AsQueryable();
-        }
+		public T Add(T entity)
+		{
+			var entitySet = _appContext.Set<T>();
+			entitySet.Add(entity);
+			_appContext.SaveChanges();
+			return entity;
+		}
 
-        public IQueryable<T> AsNoTracking()
-        {
-            var entitySet = _appContext.Set<T>();
-            return entitySet.AsNoTracking();
-        }
+		public IQueryable<T> AsQueryable()
+		{
+			var entitySet = _appContext.Set<T>();
+			return entitySet.AsQueryable();
+		}
 
-        public T Find(object id)
-        {
-            var entitySet = _appContext.Set<T>();
-            return entitySet.Find(id);
-        }
+		public IQueryable<T> AsNoTracking()
+		{
+			var entitySet = _appContext.Set<T>();
+			return entitySet.AsNoTracking();
+		}
 
-        public void SaveOrUpdate()
-        {
-            _appContext.SaveChanges();
-        }
-    }
+		public T Find(object id)
+		{
+			var entitySet = _appContext.Set<T>();
+			return entitySet.Find(id);
+		}
+
+		public void SaveOrUpdate()
+		{
+			_appContext.SaveChanges();
+		}
+
+	}
 }

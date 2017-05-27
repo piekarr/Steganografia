@@ -1,14 +1,17 @@
 ﻿@model Steganografia.ViewModels.Home.ConversationMessageViewModel
-
+@{ 
+	var user = User.Identity as Steganografia.Security.Entities.AppIdentity;
+	string className = Model.CreatedByUserId == user.Id ? "panel-default text-right" : "panel-primary";
+}
 <div class="message" data-message-id="@Model.Id">
-    <div class="panel panel-primary">
+    <div class="panel @className">
         <div class="panel-heading">
             <h3 class="panel-title">
                 @Model.CreatedByUser
             </h3>
         </div>
         <div class="panel-body">
-            @Model.Content
+            @Html.Raw(Model.Content)
         </div>
         <div class="panel-footer">
             @Model.CreatedDate

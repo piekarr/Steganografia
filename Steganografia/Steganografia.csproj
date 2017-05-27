@@ -147,6 +147,11 @@
     <Content Include="App_Data\AppContext_log.ldf">
       <DependentUpon>AppContext.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\Emoticons\facebook-heart-emoticon.png" />
+    <Content Include="Content\Emoticons\facebook-smiley-face.png" />
+    <Content Include="Content\Emoticons\frowny-face.png" />
+    <Content Include="Content\Emoticons\grinning-facebook-emoticon.png" />
+    <Content Include="Content\Emoticons\tongue-out-facebook-emoticon.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -235,7 +240,9 @@
     <Compile Include="Services\BitmapCoders\ImageDataEncoderService.cs" />
     <Compile Include="Services\BitmapCoders\PixelRGBValue.cs" />
     <Compile Include="Services\Conversations\ConversationService.cs" />
+    <Compile Include="Services\Conversations\HiddenMessageService.cs" />
     <Compile Include="Services\Conversations\IConversationService.cs" />
+    <Compile Include="Services\Conversations\IHiddenMessageService.cs" />
     <Compile Include="ViewModels\Accounts\RegisterUserViewModel.cs" />
     <Compile Include="ViewModels\Accounts\SignInUserViewModel.cs" />
     <Compile Include="ViewModels\Home\ConversationMessageViewModel.cs" />
