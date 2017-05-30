@@ -18,7 +18,8 @@ namespace Steganografia.Services.BitmapCoders
                 result = WriteDataToBitmap(result, readedData, config, ref column, ref row, ref selectedPixel, ref savedBits);
             }
             result = WriteDataToBitmap(result, 0, config, ref column, ref row, ref selectedPixel, ref savedBits);
-            return result;
+			data.Dispose();
+			return result;
         }
 
         private static Bitmap WriteDataToBitmap(Bitmap result, int readedData, BitmapCodeDataConfig config, ref int column, ref int row, ref PixelRGBValue selectedPixel, ref int savedBits)
