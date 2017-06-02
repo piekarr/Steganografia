@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Hosting;
@@ -63,6 +64,17 @@ namespace Steganografia.Services.Conversations
 			writer.Flush();
 			stream.Position = 0;
 			return stream;
+		}
+
+		public static string GetHash(string input)
+		{
+			HashAlgorithm hashAlgorithm = new SHA256CryptoServiceProvider();
+
+			byte[] byteValue = System.Text.Encoding.UTF8.GetBytes(input);
+
+			byte[] byteHash = hashAlgorithm.ComputeHash(byteValue);
+
+			return Convert.ToBase64String(byteHash);
 		}
 	}
 }
