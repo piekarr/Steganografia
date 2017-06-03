@@ -81,7 +81,15 @@ namespace Steganografia.Controllers
 			Response.StatusCode = (int)HttpStatusCode.BadRequest;
 			return PartialView(createMessageViewModel);
 		}
-		
+
+		[HttpPost]
+		public string Decrypt(string DecryptionPassword, HttpPostedFileBase Emoticon)
+		{
+
+			string result = _conversationService.DecryptFromEmoticon(Emoticon.InputStream, DecryptionPassword);
+			return result;
+		}
+
 		private void ValidateCreateConversationViewModel(CreateConversationViewModel model)
 		{
 			if (model.UserIds == null)

@@ -30,7 +30,7 @@ var apendMessage = function (e) {
 		data: $(this).serialize(),
 		success: function (json) {
 			var $messagesList = $('.messagesList');
-			if ($messagesList.children('.alert')) {
+			if ($messagesList.children('.alert').length) {
 				$messagesList.empty();
 			}
 			$messagesList.append(json);

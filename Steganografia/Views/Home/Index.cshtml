@@ -1,24 +1,41 @@
-﻿@model IEnumerable<Steganografia.ViewModels.Home.ConversationViewModel> 
+﻿@model IEnumerable<Steganografia.ViewModels.Home.ConversationViewModel>
 @{
-    ViewBag.Title = "Piekar Site";
+	ViewBag.Title = "Piekar Site";
 }
 <div class="conversationsBody">
-    <div class="row">
-        <div class="col-sm-3 conversations">
-            @{
-                Html.RenderPartial("Conversations", Model);
-            }
-        </div>
-        <div class="col-sm-9 ">
-            <div class="messages"></div>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-sm-3 conversations">
+			@{
+				Html.RenderPartial("Conversations", Model);
+			}
+		</div>
+		<div class="col-sm-9 ">
+			<div class="messages"></div>
+		</div>
+	</div>
 </div>
+<div class="decryptionContainer">
+	<div class="decryptionTop">
+		<button type="button" style="width:20px; height:20px;">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+	</div>
+	<div class="decriptionContent">
+		@using (Html.BeginForm("Decrypt", "Home", FormMethod.Post,new { enctype = "multipart/form-data" }))
+		{
+		<input type="file" name="Emoticon" />
+		<input type="text" name="DecryptionPassword" />
+		<input type="submit" />
+		}
+	</div>
 
+</div>
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            initializeConversations();
-        });
-    </script>
+	<script>
+		$(document).ready(function () {
+			initializeConversations();
+		});
+	</script>
 }

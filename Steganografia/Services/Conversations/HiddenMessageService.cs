@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Hosting;
@@ -18,6 +19,7 @@ namespace Steganografia.Services.Conversations
 		private const string PATH_FORMAT = PATH + "{0}";
 
 		private readonly ImageDataCoderService _coderService;
+		private readonly ImageDataEncoderService _encoderService;
 
 		private readonly IDictionary<string, string> _emoticons = new Dictionary<string, string>
 		{
@@ -30,6 +32,7 @@ namespace Steganografia.Services.Conversations
 		public HiddenMessageService()
 		{
 			_coderService = new ImageDataCoderService();
+			_encoderService = new ImageDataEncoderService();
 		}
 
 		public string FindPaternAndHideInPictureText(string message)
@@ -42,13 +45,13 @@ namespace Steganografia.Services.Conversations
 				if (values.Count() == 3)
 				{
 					var messageToEncrypt = values[0];
-					var encryptionKey = values[1];
+					var password = values[1];
 					var emoticonSign = values[2];
 					var path = HostingEnvironment.MapPath("~" + PATH);
 					string emoticonPath = string.Format("{0}{1}", path, _emoticons.ContainsKey(emoticonSign.ToLower()) ? _emoticons[emoticonSign.ToLower()] : _emoticons.First().Value);
-					var result = _coderService.CodeDataToImage((Bitmap)Image.FromFile(emoticonPath), GenerateStreamFromString(messageToEncrypt), new BitmapCodeDataConfig(1, 1, 1));
+					var result = _coderService.CodeDataToImage((Bitmap)Image.FromFile(emoticonPath), GenerateStreamFromString(Encrypt(messageToEncrypt, password)), new BitmapCodeDataConfig(1, 1, 1));
 
-					string newEmotName = Guid.NewGuid().ToString()+ ".png";
+					string newEmotName = Guid.NewGuid().ToString() + ".png";
 					result.Save(string.Format("{0}{1}", path, newEmotName));
 					message = message.Replace(match.Value, $"<img src=\"{string.Format(PATH_FORMAT, newEmotName)}\" width=\"20\" height=\"20\">");
 				}
@@ -66,15 +69,62 @@ namespace Steganografia.Services.Conversations
 			return stream;
 		}
 
-		public static string GetHash(string input)
+		public string DecryptFromEmoticon(Stream inputStream, string password)
 		{
-			HashAlgorithm hashAlgorithm = new SHA256CryptoServiceProvider();
+			var emoticon = (Bitmap)Image.FromStream(inputStream);
+			var result = _encoderService.EncodeDataFromImage(emoticon, new BitmapCodeDataConfig(1, 1, 1));
+			StreamReader reader = new StreamReader(result);
+			string encodedMessage = "Złe hasło";
+			try
+			{
+				encodedMessage = Decrypt(reader.ReadToEnd(), password);
+			}
+			catch (Exception)
+			{
 
-			byte[] byteValue = System.Text.Encoding.UTF8.GetBytes(input);
+			}
+			return encodedMessage;
+		}
 
-			byte[] byteHash = hashAlgorithm.ComputeHash(byteValue);
+		private const string initVector = "tu89geji340t89u2";
 
-			return Convert.ToBase64String(byteHash);
+		private const int keysize = 256;
+
+		public static string Encrypt(string Text, string Key)
+		{
+			byte[] initVectorBytes = Encoding.UTF8.GetBytes(initVector);
+			byte[] plainTextBytes = Encoding.UTF8.GetBytes(Text);
+			PasswordDeriveBytes password = new PasswordDeriveBytes(Key, null);
+			byte[] keyBytes = password.GetBytes(keysize / 8);
+			RijndaelManaged symmetricKey = new RijndaelManaged();
+			symmetricKey.Mode = CipherMode.CBC;
+			ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
+			MemoryStream memoryStream = new MemoryStream();
+			CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
+			cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
+			cryptoStream.FlushFinalBlock();
+			byte[] Encrypted = memoryStream.ToArray();
+			memoryStream.Close();
+			cryptoStream.Close();
+			return Convert.ToBase64String(Encrypted);
+		}
+
+		public static string Decrypt(string EncryptedText, string Key)
+		{
+			byte[] initVectorBytes = Encoding.ASCII.GetBytes(initVector);
+			byte[] DeEncryptedText = Convert.FromBase64String(EncryptedText);
+			PasswordDeriveBytes password = new PasswordDeriveBytes(Key, null);
+			byte[] keyBytes = password.GetBytes(keysize / 8);
+			RijndaelManaged symmetricKey = new RijndaelManaged();
+			symmetricKey.Mode = CipherMode.CBC;
+			ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
+			MemoryStream memoryStream = new MemoryStream(DeEncryptedText);
+			CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+			byte[] plainTextBytes = new byte[DeEncryptedText.Length];
+			int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+			memoryStream.Close();
+			cryptoStream.Close();
+			return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
 		}
 	}
 }

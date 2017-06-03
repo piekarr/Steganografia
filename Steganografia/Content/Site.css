@@ -66,6 +66,24 @@ textarea {
 .messagesList {
 	max-height: 500px;
 }
+
 .conversationList {
 	max-height: 300px;
+}
+
+.decryptionContainer {
+	position: fixed;
+	width: 250px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.decryptionTop {
+	height: 25px;
+	position: absolute;
+	right: 0px;
+}
+
+.decriptionContent {
+	background-color: gray;
 }

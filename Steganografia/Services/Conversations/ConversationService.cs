@@ -7,6 +7,7 @@ using Steganografia.Models.Conversations;
 using Steganografia.EntityFramework;
 using Steganografia.Models.Users;
 using System.Web.Mvc;
+using System.IO;
 
 namespace Steganografia.Services.Conversations
 {
@@ -132,6 +133,11 @@ namespace Steganografia.Services.Conversations
 				CreatedDate = message.CreatedDate,
 				CreatedByUserId = message.CreatedByUserId
 			};
+		}
+
+		public string DecryptFromEmoticon(Stream inputStream, string password)
+		{
+			return _hiddenMessageService.DecryptFromEmoticon(inputStream, password);
 		}
 	}
 }
