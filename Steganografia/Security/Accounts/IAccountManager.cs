@@ -8,5 +8,6 @@ namespace Steganografia.Security.Accounts
         void SignIn(string userName, HttpContextBase response);
         bool UserNameTaken(string userName);
         void CreateAccount(string userName, string password, string firstName, string lastName);
-    }
+		void Logout(HttpContextBase httpContext);
+	}
 }

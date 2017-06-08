@@ -6,8 +6,9 @@ namespace Steganografia.Migrations
     using System.Linq;
     using EntityFramework;
     using Models.Users;
+	using Steganografia.Security.Accounts;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Steganografia.EntityFramework.AppContext>
+	internal sealed class Configuration : DbMigrationsConfiguration<Steganografia.EntityFramework.AppContext>
     {
         public Configuration()
         {
@@ -24,7 +25,7 @@ namespace Steganografia.Migrations
             if (!context.Users.Any(x => x.UserName == "Admin"))
             {
                 context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('User', RESEED, 1000)");
-                User user = new User("Admin", "Password", "Dawid", "Piekar");
+                User user = new User("Admin", AccountManager.GetHash("password"), "Dawid", "Piekar");
                 context.Users.Add(user);
                 context.SaveChanges();
                 context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('User', RESEED, 2000)");

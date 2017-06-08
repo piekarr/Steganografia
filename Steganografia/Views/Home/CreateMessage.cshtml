@@ -6,8 +6,8 @@
 
 	<div>
 		@Html.HiddenFor(x => x.ConversatonId)
-		<div>
-			@Html.TextAreaFor(x => x.Message)
+		<div class="form-group">
+			@Html.TextAreaFor(x => x.Message, new { @class = "form-control" })
 			@Html.ValidationMessageFor(x => x.Message)
 		</div>
 		<input type="submit" value="Send" class="btn btn-default" />

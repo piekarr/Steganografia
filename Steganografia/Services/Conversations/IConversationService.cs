@@ -16,5 +16,6 @@ namespace Steganografia.Services.Conversations
         IEnumerable<SelectListItem> GetAllUsersExceptAsSelectListItems(int userId);
         ConversationMessageViewModel CreateMessage(int conversatonId, string content, int userId);
 		string DecryptFromEmoticon(Stream inputStream, string password);
+		IEnumerable<ConversationMessageViewModel> GetNewestMessages(int conversationId, int? lastMessageId);
 	}
 }

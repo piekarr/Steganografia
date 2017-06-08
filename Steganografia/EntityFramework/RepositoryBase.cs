@@ -8,7 +8,7 @@ namespace Steganografia.EntityFramework
 	public class RepositoryBase<T> : IRepository<T> where T : class
 	{
 		AppContext _appContext;
-
+		private static object _l = new object();
 		public RepositoryBase()
 		{
 			_appContext = AppContext.Create();
@@ -47,7 +47,11 @@ namespace Steganografia.EntityFramework
 
 		public void SaveOrUpdate()
 		{
-			_appContext.SaveChanges();
+			lock (_l)
+			{
+				_appContext.SaveChanges();
+
+			}
 		}
 
 	}

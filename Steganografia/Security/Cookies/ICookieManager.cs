@@ -7,5 +7,6 @@ namespace Steganografia.Security.Cookies
     {
         void AddAuthenticationCookie(int userId, HttpContextBase httpContext);
         AppPrincipal ValidateRequestCookie(HttpContextBase httpContext);
-    }
+		void RemoveCookie(HttpContextBase httpContext);
+	}
 }

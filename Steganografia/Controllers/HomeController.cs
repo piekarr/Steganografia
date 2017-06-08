@@ -41,6 +41,16 @@ namespace Steganografia.Controllers
 		}
 
 		[HttpGet]
+		public ActionResult NewMessages(int id, int? lastMessageId)
+		{
+			if (!_conversationService.UserIsAMemberOfConversation(id, User.Identity.Id))
+			{
+				return new HttpNotFoundResult();
+			}
+			return PartialView("ConversationMessagesList", _conversationService.GetNewestMessages(id, lastMessageId));
+		}
+
+		[HttpGet]
 		public ActionResult Create()
 		{
 			ViewData["UsersSelectListItems"] = _conversationService.GetAllUsersExceptAsSelectListItems(User.Identity.Id);

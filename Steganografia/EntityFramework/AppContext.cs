@@ -8,30 +8,34 @@ using System;
 
 namespace Steganografia.EntityFramework
 {
-    public partial class AppContext : DbContext
-    {
-        private static AppContext _appContext;
+	public partial class AppContext : DbContext
+	{
 
-        public IDbSet<User> Users { get; set; }
+		public IDbSet<User> Users { get; set; }
+		//public static AppContext _db;
+		//private static object _lock;
+		public AppContext()
+			: base("name=AppContext")
+		{
+		}
 
-        public AppContext()
-            : base("name=AppContext")
-        {
-        }
+		protected override void OnModelCreating(DbModelBuilder modelBuilder)
+		{
+			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+			modelBuilder.Configurations.Add(new UserMap());
+			modelBuilder.Configurations.Add(new SessionMap());
+			modelBuilder.Configurations.Add(new ConversationMap());
+			modelBuilder.Configurations.Add(new MessageMap());
+			modelBuilder.Configurations.Add(new UserUnreadMessageMap());
+		}
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            modelBuilder.Configurations.Add(new UserMap());
-            modelBuilder.Configurations.Add(new SessionMap());
-            modelBuilder.Configurations.Add(new ConversationMap());
-            modelBuilder.Configurations.Add(new MessageMap());
-            modelBuilder.Configurations.Add(new UserUnreadMessageMap());
-        }
-
-        internal static AppContext Create()
-        {
-            return _appContext = _appContext ?? new AppContext();
-        }
-    }
+		internal static AppContext Create()
+		{
+			//if (_db == null)
+			//{
+			//	_db = new AppContext();
+			//}
+			return new AppContext();
+		}
+	}
 }

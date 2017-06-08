@@ -8,6 +8,7 @@ using Steganografia.EntityFramework;
 using Steganografia.Models.Users;
 using System.Web.Mvc;
 using System.IO;
+using System.Data.Entity;
 
 namespace Steganografia.Services.Conversations
 {
@@ -61,6 +62,27 @@ namespace Steganografia.Services.Conversations
 				}).ToList();
 		}
 
+		public IEnumerable<ConversationMessageViewModel> GetNewestMessages(int conversationId, int? lastMessageId)
+		{
+			var query = _messageRepository.AsNoTracking()
+				.Where(x => x.ConversationId == conversationId);
+
+			if (lastMessageId.HasValue)
+			{
+				query = query.Where(x => x.Id > lastMessageId.Value);
+			}
+
+			return query.OrderBy(x => x.CreatedDate)
+				.Select(message => new ConversationMessageViewModel
+				{
+					Id = message.Id,
+					Content = message.Content,
+					CreatedByUser = message.CreatedByUser.LastName + " " + message.CreatedByUser.FirstName,
+					CreatedDate = message.CreatedDate,
+					CreatedByUserId = message.CreatedByUserId
+				}).ToList();
+		}
+
 		public bool UserIsAMemberOfConversation(int conversationId, int userId)
 		{
 			return IsMemberOfConversation(_conversationRepository.AsNoTracking(), userId).Any();
@@ -85,9 +107,18 @@ namespace Steganografia.Services.Conversations
 		public bool ConversationForUserGroupExists(List<int> userIds, int userId)
 		{
 			var allUserIds = userIds.Union(new List<int> { userId }).ToList();
-			return _conversationRepository.AsNoTracking()
-				.Any(x => (userIds.Count() == x.Users.Count()) &&
-						   x.Users.Select(u => u.Id).All(i => userIds.Contains(i)));
+			var cos = _conversationRepository.AsNoTracking()
+				.Include(x => x.Users).ToList();
+			bool result = false;
+			foreach (var item in cos)
+			{
+				var list = item.Users.Select(x => x.Id);
+				result = list.All(x => allUserIds.Contains(x));
+				result = result && list.Count() == allUserIds.Count();
+				if (result)
+					break;
+			}
+			return result;
 		}
 
 		public IEnumerable<SelectListItem> GetAllUsersExceptAsSelectListItems(int userId)
@@ -139,5 +170,6 @@ namespace Steganografia.Services.Conversations
 		{
 			return _hiddenMessageService.DecryptFromEmoticon(inputStream, password);
 		}
+
 	}
 }

@@ -14,7 +14,7 @@ namespace Steganografia.EntityFramework.Mappings
             Property(x => x.CreatedByUserId);
             Property(x => x.UpdatedDate);
             Property(x => x.UpdatedByUserId);
-            Property(x => x.IsActive).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
+            Property(x => x.IsActive);
             HasRequired(x => x.CreatedByUser).WithMany().HasForeignKey(x => x.CreatedByUserId);
             HasOptional(x => x.UpdatedByUser).WithMany().HasForeignKey(x => x.UpdatedByUserId);
         }

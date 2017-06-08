@@ -3,10 +3,7 @@
 <div class="messagesList">
 	@if (Model.Any())
 	{
-		foreach (var message in Model)
-		{
-			Html.RenderPartial("ConversationMessage", message);
-		}
+		Html.RenderPartial("ConversationMessagesList", Model);
 	}
 	else
 	{

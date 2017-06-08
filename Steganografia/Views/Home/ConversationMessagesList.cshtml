@@ -1,0 +1,5 @@
+﻿@model IEnumerable<Steganografia.ViewModels.Home.ConversationMessageViewModel>
+@foreach (var message in Model)
+{
+	Html.RenderPartial("ConversationMessage", message);
+}
